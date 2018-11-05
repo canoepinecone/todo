@@ -12,12 +12,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      todos: [
-        "Starting todo"
-      ]
-    });
-    this.sendState();
+    this.setState({todos: [], user: '', userkey: ''});
   }
 
   addTodo(item) {
@@ -37,13 +32,13 @@ class App extends Component {
   }
 
   sendState() {
-    $.ajax('http://localhost:5000/todos', {
+    $.ajax('http://localhost:5000/', {
       method: 'POST',
       data: this.state
     });
   }
   getState() {
-    $.ajax('http://localhost:5000/todos', {
+    $.ajax('http://localhost:5000/', {
       success: function(data) {
         this.setState(data);
       }
@@ -52,6 +47,7 @@ class App extends Component {
 
   render() {
     this.getState();
+    if (this.state.login)
     return (
       <div>
         <AddTodo addTodo={this.addTodo.bind(this)} />

@@ -14,7 +14,7 @@ class Todo(db.Model):
     def __init__(self, text):
         self.text = text
 
-@app.route('/todos', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def get_todos():
     if request.method == 'GET':
         state = {'todos': []}
