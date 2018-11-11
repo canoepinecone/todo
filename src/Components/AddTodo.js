@@ -11,7 +11,7 @@ class AddTodo extends Component {
         return (
             <form onSubmit={this.handleSubmit.bind(this)}>
                 <label for="item">Item</label>
-                <input type="text" name="item" id="item" />
+                <input type="text" id="item" />
                 <input type="submit" />
             </form>
         );

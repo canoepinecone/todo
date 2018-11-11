@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import TodoList from './Components/TodoList';
 import AddTodo from './Components/AddTodo';
+import LoginForm from './Components/LoginForm';
 import $ from 'jquery';
+import Cookies from 'universal-cookie';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      todos: []
+      todos: [],
+      login: "nothing"
     };
+    this.cookies = new Cookies();
   }
 
   componentDidMount() {
@@ -31,6 +35,14 @@ class App extends Component {
     this.sendState();
   }
 
+  handleLogin(username, password) {
+    this.setState({
+      todos: this.state.todos,
+      login: username + ':' + password
+    });
+    this.sendState();
+  }
+
   sendState() {
     $.ajax('http://localhost:5000/', {
       method: 'POST',
@@ -46,14 +58,20 @@ class App extends Component {
   }
 
   render() {
-    this.getState();
-    if (this.state.login)
-    return (
-      <div>
-        <AddTodo addTodo={this.addTodo.bind(this)} />
-        <TodoList todos={this.state.todos} deleteItem={this.deleteItem.bind(this)} />
-      </div>
-    );
+    if (this.state.login !== 'nothing') {
+      return (
+        <div>
+          <AddTodo addTodo={this.addTodo.bind(this)} />
+          <TodoList todos={this.state.todos} deleteItem={this.deleteItem.bind(this)} />
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <LoginForm handleLogin={this.handleLogin.bind(this)} />
+        </div>
+      );
+    }
   }
 }
 
